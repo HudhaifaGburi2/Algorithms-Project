@@ -495,19 +495,16 @@ class FullAnimation(Scene):
         self.play(Write(qs_note), Write(ms_note), run_time=NORMAL)
         self.wait(PAUSE)
     
-    # ==================== SCENE 9: FINAL SUMMARY ====================
+    # ==================== SCENE 7: FINAL SUMMARY ====================
     
     def _final_summary(self):
         """Final summary and takeaways."""
-        title = Text("Summary", font_size=HEADING_SIZE, color=TEXT_PRIMARY)
-        title.to_edge(UP, buff=0.5)
+        title = self._create_title("Summary")
         self.play(Write(title), run_time=NORMAL)
-        self.wait(PAUSE)
         
-        # Comparison table
+        # Comparison table - positioned safely
         table_data = [
             ("", "Quick Sort", "Merge Sort"),
-            ("Best Case", "O(n log n)", "O(n log n)"),
             ("Worst Case", "O(n²)", "O(n log n)"),
             ("Space", "O(log n)", "O(n)"),
             ("Stable", "No", "Yes"),
@@ -530,32 +527,32 @@ class FullAnimation(Scene):
                     Text(qs, font_size=SMALL_SIZE, color=COMPLEXITY_GOOD if qs_good else COMPLEXITY_BAD),
                     Text(ms, font_size=SMALL_SIZE, color=COMPLEXITY_GOOD if ms_good else COMPLEXITY_BAD)
                 )
-            row.arrange(RIGHT, buff=1.5)
+            row.arrange(RIGHT, buff=1.2)
             table.add(row)
         
-        table.arrange(DOWN, buff=0.3, aligned_edge=LEFT)
-        table.move_to(UP * 0.5)
+        table.arrange(DOWN, buff=0.25, aligned_edge=LEFT)
+        table.move_to(UP * 1.0)
         
         self.play(
-            LaggedStart(*[FadeIn(row, shift=UP * 0.2) for row in table], lag_ratio=0.12),
+            LaggedStart(*[FadeIn(row, shift=UP * 0.15) for row in table], lag_ratio=0.1),
             run_time=SLOW
         )
         self.wait(PAUSE)
         
-        # Takeaways
-        qs_take = Text("Quick Sort: Faster in practice, less memory", font_size=LABEL_SIZE, color=PIVOT)
-        ms_take = Text("Merge Sort: Predictable, stable, guaranteed O(n log n)", font_size=LABEL_SIZE, color=TEMPORARY_STORAGE)
+        # Takeaways - positioned below table
+        qs_take = Text("Quick Sort: Faster in practice", font_size=LABEL_SIZE, color=PIVOT)
+        ms_take = Text("Merge Sort: Predictable & stable", font_size=LABEL_SIZE, color=TEMPORARY_STORAGE)
         
-        qs_take.move_to(DOWN * 2)
-        ms_take.next_to(qs_take, DOWN, buff=0.4)
+        qs_take.move_to(DOWN * 1.2)
+        ms_take.next_to(qs_take, DOWN, buff=0.35)
         
         self.play(Write(qs_take), run_time=NORMAL)
         self.play(Write(ms_take), run_time=NORMAL)
-        self.wait(PAUSE * 2)
+        self.wait(PAUSE)
         
-        # Final message
+        # Final message at safe bottom
         final = Text("Choose based on your requirements!", font_size=BODY_SIZE, color=CORRECTLY_PLACED)
-        final.to_edge(DOWN, buff=0.5)
+        final.move_to(DOWN * 2.8)
         
         self.play(Write(final), run_time=NORMAL)
-        self.wait(PAUSE * 2)
+        self.wait(PAUSE)
