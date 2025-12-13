@@ -16,6 +16,7 @@ Each chapter covers concepts from "Grokking Algorithms" with smooth motion, sema
 | 4 | Divide & Conquer, Quicksort, Pivot Analysis | `Chapter4_DivideConquerQuicksort/` |
 | 5 | Hash Tables, Hash Functions, Collisions | `Chapter5_HashTables/` |
 | 6 | Breadth-First Search, Graphs, Queues | `Chapter6_BreadthFirstSearch/` |
+| 7 | Dijkstra's Algorithm, Weighted Graphs | `Chapter7_DijkstrasAlgorithm/` |
 | - | Quick Sort vs Merge Sort | `quickSortVsMergeSort/` |
 
 ---
@@ -80,6 +81,10 @@ manim -pqh main.py Chapter5Animation
 cd Chapter6_BreadthFirstSearch
 manim -pqh main.py Chapter6Animation
 
+# Render Chapter 7 - Dijkstra's
+cd Chapter7_DijkstrasAlgorithm
+manim -pqh main.py Chapter7Animation
+
 # Render QuickSort vs MergeSort
 cd quickSortVsMergeSort
 manim -pqh main.py FullAnimation
@@ -124,6 +129,12 @@ algorithms/
 │   └── README.md
 ├── Chapter6_BreadthFirstSearch/
 │   ├── main.py                    # BFS & Graphs
+│   ├── config/
+│   ├── core/
+│   ├── algorithms/
+│   └── README.md
+├── Chapter7_DijkstrasAlgorithm/
+│   ├── main.py                    # Dijkstra's Algorithm
 │   ├── config/
 │   ├── core/
 │   ├── algorithms/
