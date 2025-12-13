@@ -171,396 +171,409 @@ class FullAnimation(Scene):
         )
         self.wait(PAUSE)
     
-    # ==================== SCENE 2: QUICK SORT EXPLAINED ====================
+    # ==================== SCENE 2: QUICK SORT FULL D&C ====================
     
-    def _quick_sort_explained(self):
-        """Quick Sort with D&C concept - single clean scene."""
-        # Title at top
-        title = self._create_title("Quick Sort")
+    def _quick_sort_full(self):
+        """Complete Quick Sort demonstration with Divide & Conquer."""
+        # Title
+        title = self._title("Quick Sort: Divide & Conquer")
         self.play(Write(title), run_time=NORMAL)
         
-        # Step indicator
-        step_text = Text("Step 1: Choose Pivot", font_size=BODY_SIZE, color=TEXT_SECONDARY)
-        step_text.move_to(UP * CONTENT_TOP_Y)
-        self.play(Write(step_text), run_time=FAST)
+        # === STEP 1: Show original array ===
+        step = self._step_label("Step 1: Choose Pivot (last element)")
+        self.play(Write(step), run_time=FAST)
         
-        # Array in middle area
         values = [8, 3, 7, 4, 2]
-        array = self._create_array(values, UNPROCESSED, scale=0.85)
-        array.move_to(UP * 0.8)
+        arr = self._array(values, UNPROCESSED, scale=0.85)
+        arr.move_to(UP * ARRAY_Y)
         
-        self.play(FadeIn(array), run_time=NORMAL)
+        self.play(FadeIn(arr), run_time=NORMAL)
         self.wait(PAUSE)
         
-        # Highlight pivot (last element = 2)
-        pivot_marker = Text("Pivot = 2", font_size=LABEL_SIZE, color=PIVOT)
-        pivot_marker.next_to(array[4], DOWN, buff=0.25)
+        # Highlight pivot
+        pivot_lbl = Text("Pivot = 2", font_size=LABEL_SIZE, color=PIVOT)
+        pivot_lbl.next_to(arr[4], DOWN, buff=0.3)
         
-        self.play(
-            self._color_bar(array[4], PIVOT),
-            FadeIn(pivot_marker),
-            run_time=NORMAL
-        )
+        self.play(self._color(arr[4], PIVOT), FadeIn(pivot_lbl), run_time=NORMAL)
         self.wait(PAUSE)
         
-        # Step 2: Compare and Partition
-        step2_text = Text("Step 2: Compare with Pivot", font_size=BODY_SIZE, color=TEXT_SECONDARY)
-        step2_text.move_to(step_text.get_center())
-        self.play(ReplacementTransform(step_text, step2_text), run_time=FAST)
+        # === STEP 2: Compare each element with pivot ===
+        step2 = self._step_label("Step 2: Compare each element with pivot")
+        self.play(ReplacementTransform(step, step2), run_time=FAST)
         
-        # Compare each element - all > 2
+        # Compare: 8>2, 3>2, 7>2, 4>2 (all go to right)
+        compare_results = ["8 > 2", "3 > 2", "7 > 2", "4 > 2"]
         for i in range(4):
-            self.play(self._color_bar(array[i], ACTIVE_COMPARISON), run_time=FAST)
+            # Highlight comparison
+            self.play(self._color(arr[i], ACTIVE_COMPARISON), run_time=FAST)
+            self.wait(0.3)
+            # Result - all are greater
+            self.play(self._color(arr[i], SUBARRAY_RIGHT), run_time=FAST)
             self.wait(0.2)
-            self.play(self._color_bar(array[i], SUBARRAY_RIGHT), run_time=FAST)
         
         self.wait(PAUSE)
         
-        # Step 3: Partition result
-        step3_text = Text("Step 3: Pivot in Final Position", font_size=BODY_SIZE, color=TEXT_SECONDARY)
-        step3_text.move_to(step2_text.get_center())
-        self.play(ReplacementTransform(step2_text, step3_text), run_time=FAST)
+        # === STEP 3: Partition result ===
+        step3 = self._step_label("Step 3: Pivot goes to final position")
+        self.play(ReplacementTransform(step2, step3), FadeOut(pivot_lbl), run_time=FAST)
         
-        # Show partition result below - pivot sorted, rest needs recursion
-        result_y = -0.8
+        # Show partition result: [2] is sorted, [8,3,7,4] needs recursion
+        pivot_done = self._bar(2, CORRECTLY_PLACED, scale=0.8)
+        pivot_done.move_to(LEFT * 4.5 + UP * LEVEL1_Y)
         
-        pivot_sorted = self._create_bar(2, CORRECTLY_PLACED, scale=0.8)
-        pivot_sorted.move_to(LEFT * 3.5 + UP * result_y)
+        right_sub = self._array([8, 3, 7, 4], SUBARRAY_RIGHT, scale=0.75)
+        right_sub.move_to(RIGHT * 1.5 + UP * LEVEL1_Y)
         
-        remaining = self._create_array([8, 3, 7, 4], SUBARRAY_RIGHT, scale=0.7)
-        remaining.move_to(RIGHT * 1.5 + UP * result_y)
+        done_lbl = Text("In final position!", font_size=SMALL_SIZE, color=CORRECTLY_PLACED)
+        done_lbl.next_to(pivot_done, DOWN, buff=0.25)
         
-        sorted_label = Text("Sorted!", font_size=SMALL_SIZE, color=CORRECTLY_PLACED)
-        sorted_label.next_to(pivot_sorted, DOWN, buff=0.2)
-        
-        recurse_label = Text("Need to sort", font_size=SMALL_SIZE, color=SUBARRAY_RIGHT)
-        recurse_label.next_to(remaining, DOWN, buff=0.2)
+        recurse_lbl = Text("Recurse on this", font_size=SMALL_SIZE, color=SUBARRAY_RIGHT)
+        recurse_lbl.next_to(right_sub, DOWN, buff=0.25)
         
         self.play(
-            array.animate.set_opacity(0.3),
-            FadeOut(pivot_marker),
-            FadeIn(pivot_sorted),
-            FadeIn(remaining),
-            FadeIn(sorted_label),
-            FadeIn(recurse_label),
+            arr.animate.set_opacity(0.25),
+            FadeIn(pivot_done),
+            FadeIn(right_sub),
+            FadeIn(done_lbl),
+            FadeIn(recurse_lbl),
             run_time=NORMAL
         )
         self.wait(PAUSE)
         
-        # Step 4: Show recursion continues
-        step4_text = Text("Step 4: Recurse on Subarrays", font_size=BODY_SIZE, color=TEXT_SECONDARY)
-        step4_text.move_to(step3_text.get_center())
-        self.play(ReplacementTransform(step3_text, step4_text), run_time=FAST)
+        # === STEP 4: Continue recursion on [8,3,7,4] with pivot=4 ===
+        step4 = self._step_label("Step 4: Recurse - pivot = 4")
+        self.play(ReplacementTransform(step3, step4), run_time=FAST)
         
-        # Final sorted result at bottom
-        final_y = -2.3
-        final_array = self._create_array([2, 3, 4, 7, 8], CORRECTLY_PLACED, scale=0.8)
-        final_array.move_to(UP * final_y)
+        # Highlight new pivot
+        self.play(self._color(right_sub[3], PIVOT), run_time=NORMAL)
+        self.wait(0.3)
         
-        final_label = Text("Final: [2, 3, 4, 7, 8]", font_size=LABEL_SIZE, color=CORRECTLY_PLACED)
-        final_label.next_to(final_array, DOWN, buff=0.3)
+        # Compare: 8>4 (right), 3<4 (left), 7>4 (right)
+        self.play(self._color(right_sub[0], ACTIVE_COMPARISON), run_time=FAST)
+        self.wait(0.2)
+        self.play(self._color(right_sub[0], SUBARRAY_RIGHT), run_time=FAST)  # 8 > 4
+        
+        self.play(self._color(right_sub[1], ACTIVE_COMPARISON), run_time=FAST)
+        self.wait(0.2)
+        self.play(self._color(right_sub[1], SUBARRAY_LEFT), run_time=FAST)   # 3 < 4
+        
+        self.play(self._color(right_sub[2], ACTIVE_COMPARISON), run_time=FAST)
+        self.wait(0.2)
+        self.play(self._color(right_sub[2], SUBARRAY_RIGHT), run_time=FAST)  # 7 > 4
+        
+        self.wait(PAUSE)
+        
+        # === STEP 5: Show recursion tree result ===
+        step5 = self._step_label("Step 5: Recursion continues...")
+        self.play(ReplacementTransform(step4, step5), run_time=FAST)
+        
+        # Level 2: [3] | 4 | [8,7]
+        elem_3 = self._bar(3, CORRECTLY_PLACED, scale=0.65)
+        elem_3.move_to(LEFT * 1 + UP * LEVEL2_Y)
+        
+        elem_4 = self._bar(4, CORRECTLY_PLACED, scale=0.65)
+        elem_4.move_to(RIGHT * 1 + UP * LEVEL2_Y)
+        
+        sub_87 = self._array([8, 7], SUBARRAY_RIGHT, scale=0.6)
+        sub_87.move_to(RIGHT * 4 + UP * LEVEL2_Y)
         
         self.play(
-            FadeOut(remaining),
-            FadeOut(recurse_label),
-            pivot_sorted.animate.set_opacity(0.3),
-            sorted_label.animate.set_opacity(0.3),
-            FadeIn(final_array),
-            Write(final_label),
-            run_time=SLOW
+            right_sub.animate.set_opacity(0.25),
+            FadeOut(recurse_lbl),
+            FadeIn(elem_3),
+            FadeIn(elem_4),
+            FadeIn(sub_87),
+            run_time=NORMAL
         )
         self.wait(PAUSE)
-    
-    # ==================== SCENE 3: QUICK SORT COMPLEXITY ====================
-    
-    def _quick_sort_complexity(self):
-        """Quick Sort complexity summary."""
-        title = self._create_title("Quick Sort Complexity")
-        self.play(Write(title), run_time=NORMAL)
         
-        items = [
-            ("Average Case:", "O(n log n)", COMPLEXITY_GOOD),
-            ("Worst Case:", "O(n²)", COMPLEXITY_BAD),
-            ("Space:", "O(log n)", COMPLEXITY_GOOD),
-            ("In-place:", "Yes", COMPLEXITY_GOOD),
-            ("Stable:", "No", COMPLEXITY_BAD),
-        ]
-        
-        summary = VGroup()
-        for label_text, value_text, color in items:
-            label = Text(label_text, font_size=BODY_SIZE, color=TEXT_SECONDARY)
-            value = Text(value_text, font_size=BODY_SIZE, color=color)
-            value.next_to(label, RIGHT, buff=0.5)
-            row = VGroup(label, value)
-            summary.add(row)
-        
-        summary.arrange(DOWN, buff=0.35, aligned_edge=LEFT)
-        summary.move_to(ORIGIN)
-        
+        # Final: [7, 8] sorted
         self.play(
-            LaggedStart(*[FadeIn(row, shift=LEFT * 0.2) for row in summary], lag_ratio=0.15),
-            run_time=SLOW
+            self._color(sub_87[0], CORRECTLY_PLACED),
+            self._color(sub_87[1], CORRECTLY_PLACED),
+            run_time=NORMAL
         )
         self.wait(PAUSE)
+        
+        # === FINAL RESULT ===
+        step_final = self._step_label("Result: Array is sorted!", color=CORRECTLY_PLACED)
+        self.play(ReplacementTransform(step5, step_final), run_time=FAST)
+        
+        final_arr = self._array([2, 3, 4, 7, 8], CORRECTLY_PLACED, scale=0.85)
+        final_arr.move_to(UP * RESULT_Y)
+        
+        final_lbl = Text("[2, 3, 4, 7, 8]", font_size=LABEL_SIZE, color=CORRECTLY_PLACED)
+        final_lbl.next_to(final_arr, DOWN, buff=0.3)
+        
+        self.play(FadeIn(final_arr), Write(final_lbl), run_time=SLOW)
+        self.wait(PAUSE)
+        
+        # Key insight
+        insight = Text("Key: Pivot always ends up in its correct final position!", 
+                      font_size=SMALL_SIZE, color=PIVOT)
+        insight.to_edge(DOWN, buff=0.4)
+        self.play(Write(insight), run_time=NORMAL)
+        self.wait(PAUSE)
     
-    # ==================== SCENE 4: MERGE SORT EXPLAINED ====================
+    # ==================== SCENE 3: MERGE SORT FULL D&C ====================
     
-    def _merge_sort_explained(self):
-        """Merge Sort with D&C concept - single clean scene."""
-        # Title at top
-        title = self._create_title("Merge Sort")
+    def _merge_sort_full(self):
+        """Complete Merge Sort demonstration with Divide & Conquer."""
+        # Title
+        title = self._title("Merge Sort: Divide & Conquer")
         self.play(Write(title), run_time=NORMAL)
         
-        # Step 1: Divide
-        step_text = Text("Step 1: Divide in Half", font_size=BODY_SIZE, color=TEXT_SECONDARY)
-        step_text.move_to(UP * CONTENT_TOP_Y)
-        self.play(Write(step_text), run_time=FAST)
+        # === DIVIDE PHASE ===
+        step = self._step_label("Divide Phase: Split until single elements")
+        self.play(Write(step), run_time=FAST)
         
-        # Array in middle
+        # Level 0: Original array
         values = [8, 3, 7, 4, 2]
-        array = self._create_array(values, UNPROCESSED, scale=0.85)
-        array.move_to(UP * 0.8)
+        level0 = self._array(values, UNPROCESSED, scale=0.75)
+        level0.move_to(UP * ARRAY_Y)
         
-        self.play(FadeIn(array), run_time=NORMAL)
+        l0_label = Text("[8, 3, 7, 4, 2]", font_size=SMALL_SIZE, color=TEXT_SECONDARY)
+        l0_label.next_to(level0, LEFT, buff=0.4)
+        
+        self.play(FadeIn(level0), FadeIn(l0_label), run_time=NORMAL)
         self.wait(PAUSE)
         
-        # Color halves
-        mid = 2
+        # Level 1: Split into [8,3] and [7,4,2]
+        left1 = self._array([8, 3], SUBARRAY_LEFT, scale=0.65)
+        right1 = self._array([7, 4, 2], SUBARRAY_RIGHT, scale=0.65)
+        
+        left1.move_to(LEFT * 3.5 + UP * LEVEL1_Y)
+        right1.move_to(RIGHT * 2.5 + UP * LEVEL1_Y)
+        
+        # Connection lines
+        line_l1 = Line(level0.get_bottom() + DOWN * 0.1, left1.get_top() + UP * 0.1,
+                      color=TEXT_SECONDARY, stroke_width=2)
+        line_r1 = Line(level0.get_bottom() + DOWN * 0.1, right1.get_top() + UP * 0.1,
+                      color=TEXT_SECONDARY, stroke_width=2)
+        
         self.play(
-            *[self._color_bar(array[i], SUBARRAY_LEFT) for i in range(mid)],
-            *[self._color_bar(array[i], SUBARRAY_RIGHT) for i in range(mid, 5)],
+            Create(line_l1), Create(line_r1),
+            FadeIn(left1), FadeIn(right1),
             run_time=NORMAL
         )
         self.wait(PAUSE)
         
-        # Split visually
-        left_half = VGroup(*[array[i] for i in range(mid)])
-        right_half = VGroup(*[array[i] for i in range(mid, 5)])
-        
-        self.play(
-            left_half.animate.shift(LEFT * 1.2),
-            right_half.animate.shift(RIGHT * 1.2),
-            run_time=NORMAL
-        )
-        self.wait(PAUSE)
-        
-        # Step 2: Keep dividing
-        step2_text = Text("Step 2: Divide Until Single Elements", font_size=BODY_SIZE, color=TEXT_SECONDARY)
-        step2_text.move_to(step_text.get_center())
-        self.play(ReplacementTransform(step_text, step2_text), run_time=FAST)
-        
-        # Show single elements
-        singles_y = -0.8
+        # Level 2: Single elements (base case)
         singles = VGroup()
         single_vals = [8, 3, 7, 4, 2]
-        positions = [LEFT * 4, LEFT * 2, ORIGIN, RIGHT * 2, RIGHT * 4]
-        
-        for val, pos in zip(single_vals, positions):
-            single = self._create_bar(val, CORRECTLY_PLACED, scale=0.65)
-            single.move_to(pos + UP * singles_y)
-            singles.add(single)
-        
-        self.play(
-            left_half.animate.set_opacity(0.3),
-            right_half.animate.set_opacity(0.3),
-            LaggedStart(*[FadeIn(s) for s in singles], lag_ratio=0.1),
-            run_time=NORMAL
-        )
-        self.wait(PAUSE)
-        
-        # Step 3: Merge
-        step3_text = Text("Step 3: Merge in Sorted Order", font_size=BODY_SIZE, color=TEXT_SECONDARY)
-        step3_text.move_to(step2_text.get_center())
-        self.play(ReplacementTransform(step2_text, step3_text), run_time=FAST)
-        
-        # Final sorted at bottom
-        final_y = -2.3
-        final_array = self._create_array([2, 3, 4, 7, 8], CORRECTLY_PLACED, scale=0.8)
-        final_array.move_to(UP * final_y)
-        
-        final_label = Text("Final: [2, 3, 4, 7, 8]", font_size=LABEL_SIZE, color=CORRECTLY_PLACED)
-        final_label.next_to(final_array, DOWN, buff=0.3)
-        
-        self.play(
-            singles.animate.set_opacity(0.3),
-            FadeIn(final_array),
-            Write(final_label),
-            run_time=SLOW
-        )
-        self.wait(PAUSE)
-    
-    # ==================== SCENE 5: MERGE SORT COMPLEXITY ====================
-    
-    def _merge_sort_complexity(self):
-        """Merge Sort complexity summary."""
-        title = self._create_title("Merge Sort Complexity")
-        self.play(Write(title), run_time=NORMAL)
-        
-        items = [
-            ("Best Case:", "O(n log n)", COMPLEXITY_GOOD),
-            ("Average Case:", "O(n log n)", COMPLEXITY_GOOD),
-            ("Worst Case:", "O(n log n)", COMPLEXITY_GOOD),
-            ("Space:", "O(n)", COMPLEXITY_BAD),
-            ("Stable:", "Yes", COMPLEXITY_GOOD),
-            ("In-place:", "No", COMPLEXITY_BAD),
+        single_positions = [
+            LEFT * 5, LEFT * 3,  # from [8,3]
+            RIGHT * 1, RIGHT * 3, RIGHT * 5  # from [7,4,2]
         ]
         
-        summary = VGroup()
-        for label_text, value_text, color in items:
-            label = Text(label_text, font_size=BODY_SIZE, color=TEXT_SECONDARY)
-            value = Text(value_text, font_size=BODY_SIZE, color=color)
-            value.next_to(label, RIGHT, buff=0.5)
-            row = VGroup(label, value)
-            summary.add(row)
+        for val, pos in zip(single_vals, single_positions):
+            s = self._bar(val, CORRECTLY_PLACED, scale=0.55)
+            s.move_to(pos + UP * LEVEL2_Y)
+            singles.add(s)
         
-        summary.arrange(DOWN, buff=0.3, aligned_edge=LEFT)
-        summary.move_to(ORIGIN)
+        lines2 = VGroup()
+        lines2.add(Line(left1.get_bottom() + DOWN * 0.1, singles[0].get_top() + UP * 0.1,
+                       color=TEXT_SECONDARY, stroke_width=1.5))
+        lines2.add(Line(left1.get_bottom() + DOWN * 0.1, singles[1].get_top() + UP * 0.1,
+                       color=TEXT_SECONDARY, stroke_width=1.5))
+        lines2.add(Line(right1.get_bottom() + DOWN * 0.1, singles[2].get_top() + UP * 0.1,
+                       color=TEXT_SECONDARY, stroke_width=1.5))
+        lines2.add(Line(right1.get_bottom() + DOWN * 0.1, singles[3].get_top() + UP * 0.1,
+                       color=TEXT_SECONDARY, stroke_width=1.5))
+        lines2.add(Line(right1.get_bottom() + DOWN * 0.1, singles[4].get_top() + UP * 0.1,
+                       color=TEXT_SECONDARY, stroke_width=1.5))
         
+        self.play(Create(lines2), FadeIn(singles), run_time=NORMAL)
+        
+        base_label = Text("Base case: single elements are sorted!", font_size=SMALL_SIZE, color=CORRECTLY_PLACED)
+        base_label.move_to(DOWN * 0.3)
+        self.play(Write(base_label), run_time=FAST)
+        self.wait(PAUSE)
+        
+        # === MERGE PHASE ===
+        step2 = self._step_label("Merge Phase: Combine in sorted order", color=TEMPORARY_STORAGE)
         self.play(
-            LaggedStart(*[FadeIn(row, shift=LEFT * 0.2) for row in summary], lag_ratio=0.12),
-            run_time=SLOW
+            ReplacementTransform(step, step2),
+            FadeOut(base_label),
+            run_time=FAST
         )
+        
+        # Merge [8] + [3] -> [3,8]
+        merge1_label = Text("Merge [8]+[3] → [3,8]", font_size=SMALL_SIZE, color=TEMPORARY_STORAGE)
+        merge1_label.move_to(LEFT * 4 + DOWN * 1.0)
+        
+        merged_38 = self._array([3, 8], TEMPORARY_STORAGE, scale=0.55)
+        merged_38.move_to(LEFT * 4 + DOWN * 1.8)
+        
+        self.play(Write(merge1_label), run_time=FAST)
+        self.play(FadeIn(merged_38), run_time=NORMAL)
+        self.wait(0.5)
+        
+        # Merge [7]+[4]+[2] step by step -> [2,4,7]
+        merge2_label = Text("Merge [7]+[4]+[2] → [2,4,7]", font_size=SMALL_SIZE, color=TEMPORARY_STORAGE)
+        merge2_label.move_to(RIGHT * 3 + DOWN * 1.0)
+        
+        merged_247 = self._array([2, 4, 7], TEMPORARY_STORAGE, scale=0.55)
+        merged_247.move_to(RIGHT * 3 + DOWN * 1.8)
+        
+        self.play(Write(merge2_label), run_time=FAST)
+        self.play(FadeIn(merged_247), run_time=NORMAL)
+        self.wait(PAUSE)
+        
+        # Final merge: [3,8] + [2,4,7] -> [2,3,4,7,8]
+        step3 = self._step_label("Final Merge: [3,8] + [2,4,7]", color=CORRECTLY_PLACED)
+        self.play(ReplacementTransform(step2, step3), run_time=FAST)
+        
+        final_arr = self._array([2, 3, 4, 7, 8], CORRECTLY_PLACED, scale=0.8)
+        final_arr.move_to(DOWN * RESULT_Y)
+        
+        final_lbl = Text("Result: [2, 3, 4, 7, 8]", font_size=LABEL_SIZE, color=CORRECTLY_PLACED)
+        final_lbl.next_to(final_arr, DOWN, buff=0.3)
+        
+        self.play(FadeIn(final_arr), Write(final_lbl), run_time=SLOW)
+        self.wait(PAUSE)
+        
+        # Key insight
+        insight = Text("Key: Merging sorted subarrays is efficient - O(n)!", 
+                      font_size=SMALL_SIZE, color=TEMPORARY_STORAGE)
+        insight.to_edge(DOWN, buff=0.4)
+        self.play(Write(insight), run_time=NORMAL)
         self.wait(PAUSE)
     
-    # ==================== SCENE 6: SIDE-BY-SIDE COMPARISON ====================
+    # ==================== SCENE 4: COMPARISON ====================
     
-    def _side_by_side_comparison(self):
-        """Side-by-side comparison - clean layout."""
-        title = self._create_title("Side-by-Side Comparison")
+    def _comparison_scene(self):
+        """Side-by-side comparison of both algorithms."""
+        title = self._title("Algorithm Comparison")
         self.play(Write(title), run_time=NORMAL)
         
-        # Divider - stays within safe bounds
-        divider = DashedLine(UP * 2.5, DOWN * 2.8, color=TEXT_SECONDARY, stroke_width=1.5, dash_length=0.12)
+        # Divider
+        divider = DashedLine(UP * 2.8, DOWN * 3.0, color=TEXT_SECONDARY, stroke_width=1.5)
         self.play(Create(divider), run_time=FAST)
         
-        # Labels at top of each side
-        qs_title = Text("Quick Sort", font_size=BODY_SIZE, color=PIVOT)
-        ms_title = Text("Merge Sort", font_size=BODY_SIZE, color=TEMPORARY_STORAGE)
-        qs_title.move_to(LEFT * 3.5 + UP * 2.2)
-        ms_title.move_to(RIGHT * 3.5 + UP * 2.2)
+        # Headers
+        qs_head = Text("Quick Sort", font_size=BODY_SIZE, color=PIVOT)
+        ms_head = Text("Merge Sort", font_size=BODY_SIZE, color=TEMPORARY_STORAGE)
+        qs_head.move_to(LEFT * 3.5 + UP * 2.3)
+        ms_head.move_to(RIGHT * 3.5 + UP * 2.3)
         
-        self.play(Write(qs_title), Write(ms_title), run_time=FAST)
+        self.play(Write(qs_head), Write(ms_head), run_time=FAST)
         
-        # Initial arrays - smaller scale to fit
-        values = [8, 3, 7, 4, 2]
+        # Initial arrays
+        qs_arr = self._array([8, 3, 7, 4, 2], UNPROCESSED, scale=0.5)
+        ms_arr = self._array([8, 3, 7, 4, 2], UNPROCESSED, scale=0.5)
+        qs_arr.move_to(LEFT * 3.5 + UP * 1.3)
+        ms_arr.move_to(RIGHT * 3.5 + UP * 1.3)
         
-        qs_array = self._create_array(values, UNPROCESSED, scale=0.55)
-        ms_array = self._create_array(values, UNPROCESSED, scale=0.55)
-        
-        qs_array.move_to(LEFT * 3.5 + UP * 1.2)
-        ms_array.move_to(RIGHT * 3.5 + UP * 1.2)
-        
-        self.play(FadeIn(qs_array), FadeIn(ms_array), run_time=NORMAL)
+        self.play(FadeIn(qs_arr), FadeIn(ms_arr), run_time=NORMAL)
         self.wait(PAUSE)
         
-        # Step labels
-        qs_step = Text("Select Pivot", font_size=SMALL_SIZE, color=PIVOT)
-        ms_step = Text("Split in Half", font_size=SMALL_SIZE, color=TEMPORARY_STORAGE)
-        qs_step.next_to(qs_array, DOWN, buff=0.25)
-        ms_step.next_to(ms_array, DOWN, buff=0.25)
+        # Quick Sort approach
+        qs_approach = Text("Approach: Pivot + Partition", font_size=SMALL_SIZE, color=PIVOT)
+        qs_approach.next_to(qs_arr, DOWN, buff=0.3)
         
-        self.play(Write(qs_step), Write(ms_step), run_time=FAST)
+        ms_approach = Text("Approach: Split + Merge", font_size=SMALL_SIZE, color=TEMPORARY_STORAGE)
+        ms_approach.next_to(ms_arr, DOWN, buff=0.3)
         
-        # Quick Sort: highlight pivot
-        self.play(self._color_bar(qs_array[4], PIVOT), run_time=NORMAL)
+        self.play(Write(qs_approach), Write(ms_approach), run_time=FAST)
         
-        # Merge Sort: color halves
+        # Animate pivoting vs splitting
+        self.play(self._color(qs_arr[4], PIVOT), run_time=NORMAL)
         self.play(
-            *[self._color_bar(ms_array[i], SUBARRAY_LEFT) for i in range(2)],
-            *[self._color_bar(ms_array[i], SUBARRAY_RIGHT) for i in range(2, 5)],
+            *[self._color(ms_arr[i], SUBARRAY_LEFT) for i in range(2)],
+            *[self._color(ms_arr[i], SUBARRAY_RIGHT) for i in range(2, 5)],
             run_time=NORMAL
         )
         self.wait(PAUSE)
         
         # Final sorted arrays
-        qs_final = self._create_array([2, 3, 4, 7, 8], CORRECTLY_PLACED, scale=0.55)
-        ms_final = self._create_array([2, 3, 4, 7, 8], CORRECTLY_PLACED, scale=0.55)
+        qs_final = self._array([2, 3, 4, 7, 8], CORRECTLY_PLACED, scale=0.5)
+        ms_final = self._array([2, 3, 4, 7, 8], CORRECTLY_PLACED, scale=0.5)
+        qs_final.move_to(LEFT * 3.5 + DOWN * 0.5)
+        ms_final.move_to(RIGHT * 3.5 + DOWN * 0.5)
         
-        qs_final.move_to(LEFT * 3.5 + DOWN * 0.8)
-        ms_final.move_to(RIGHT * 3.5 + DOWN * 0.8)
+        self.play(FadeIn(qs_final), FadeIn(ms_final), run_time=NORMAL)
+        self.wait(PAUSE)
         
-        qs_done = Text("Sorted!", font_size=SMALL_SIZE, color=CORRECTLY_PLACED)
-        ms_done = Text("Sorted!", font_size=SMALL_SIZE, color=CORRECTLY_PLACED)
-        qs_done.next_to(qs_final, DOWN, buff=0.2)
-        ms_done.next_to(ms_final, DOWN, buff=0.2)
+        # Key differences
+        qs_props = VGroup(
+            Text("In-place: Yes", font_size=SMALL_SIZE, color=COMPLEXITY_GOOD),
+            Text("Space: O(log n)", font_size=SMALL_SIZE, color=COMPLEXITY_GOOD),
+            Text("Worst: O(n²)", font_size=SMALL_SIZE, color=COMPLEXITY_BAD),
+        )
+        qs_props.arrange(DOWN, buff=0.15, aligned_edge=LEFT)
+        qs_props.move_to(LEFT * 3.5 + DOWN * 1.8)
+        
+        ms_props = VGroup(
+            Text("In-place: No", font_size=SMALL_SIZE, color=COMPLEXITY_BAD),
+            Text("Space: O(n)", font_size=SMALL_SIZE, color=COMPLEXITY_BAD),
+            Text("Worst: O(n log n)", font_size=SMALL_SIZE, color=COMPLEXITY_GOOD),
+        )
+        ms_props.arrange(DOWN, buff=0.15, aligned_edge=LEFT)
+        ms_props.move_to(RIGHT * 3.5 + DOWN * 1.8)
         
         self.play(
-            ReplacementTransform(qs_step, qs_done),
-            ReplacementTransform(ms_step, ms_done),
-            FadeIn(qs_final),
-            FadeIn(ms_final),
-            run_time=NORMAL
+            LaggedStart(*[FadeIn(p) for p in qs_props], lag_ratio=0.1),
+            LaggedStart(*[FadeIn(p) for p in ms_props], lag_ratio=0.1),
+            run_time=SLOW
         )
         self.wait(PAUSE)
-        
-        # Key differences at bottom - within bounds
-        qs_note = Text("In-place, O(log n) space", font_size=SMALL_SIZE, color=PIVOT)
-        ms_note = Text("Extra O(n) space", font_size=SMALL_SIZE, color=TEMPORARY_STORAGE)
-        
-        qs_note.move_to(LEFT * 3.5 + DOWN * 2.3)
-        ms_note.move_to(RIGHT * 3.5 + DOWN * 2.3)
-        
-        self.play(Write(qs_note), Write(ms_note), run_time=NORMAL)
-        self.wait(PAUSE)
     
-    # ==================== SCENE 7: FINAL SUMMARY ====================
+    # ==================== SCENE 5: SUMMARY ====================
     
-    def _final_summary(self):
-        """Final summary and takeaways."""
-        title = self._create_title("Summary")
+    def _summary_scene(self):
+        """Final summary with comparison table."""
+        title = self._title("Summary")
         self.play(Write(title), run_time=NORMAL)
         
-        # Comparison table - positioned safely
-        table_data = [
-            ("", "Quick Sort", "Merge Sort"),
-            ("Worst Case", "O(n²)", "O(n log n)"),
-            ("Space", "O(log n)", "O(n)"),
-            ("Stable", "No", "Yes"),
-            ("In-place", "Yes", "No"),
+        # Comparison table
+        headers = VGroup(
+            Text("", font_size=SMALL_SIZE),
+            Text("Quick Sort", font_size=SMALL_SIZE, color=PIVOT),
+            Text("Merge Sort", font_size=SMALL_SIZE, color=TEMPORARY_STORAGE)
+        )
+        headers.arrange(RIGHT, buff=1.0)
+        headers.move_to(UP * 1.8)
+        
+        rows_data = [
+            ("Average", "O(n log n)", "O(n log n)", COMPLEXITY_GOOD, COMPLEXITY_GOOD),
+            ("Worst", "O(n²)", "O(n log n)", COMPLEXITY_BAD, COMPLEXITY_GOOD),
+            ("Space", "O(log n)", "O(n)", COMPLEXITY_GOOD, COMPLEXITY_BAD),
+            ("Stable", "No", "Yes", COMPLEXITY_BAD, COMPLEXITY_GOOD),
+            ("In-place", "Yes", "No", COMPLEXITY_GOOD, COMPLEXITY_BAD),
         ]
         
-        table = VGroup()
-        for i, (label, qs, ms) in enumerate(table_data):
-            if i == 0:
-                row = VGroup(
-                    Text(label, font_size=SMALL_SIZE, color=TEXT_SECONDARY),
-                    Text(qs, font_size=SMALL_SIZE, color=PIVOT),
-                    Text(ms, font_size=SMALL_SIZE, color=TEMPORARY_STORAGE)
-                )
-            else:
-                qs_good = "log" in qs or qs == "Yes"
-                ms_good = "log" in ms or ms == "Yes" or "n log n" in ms
-                row = VGroup(
-                    Text(label, font_size=SMALL_SIZE, color=TEXT_SECONDARY),
-                    Text(qs, font_size=SMALL_SIZE, color=COMPLEXITY_GOOD if qs_good else COMPLEXITY_BAD),
-                    Text(ms, font_size=SMALL_SIZE, color=COMPLEXITY_GOOD if ms_good else COMPLEXITY_BAD)
-                )
-            row.arrange(RIGHT, buff=1.2)
+        table = VGroup(headers)
+        for label, qs_val, ms_val, qs_color, ms_color in rows_data:
+            row = VGroup(
+                Text(label, font_size=SMALL_SIZE, color=TEXT_SECONDARY),
+                Text(qs_val, font_size=SMALL_SIZE, color=qs_color),
+                Text(ms_val, font_size=SMALL_SIZE, color=ms_color)
+            )
+            row.arrange(RIGHT, buff=1.0)
             table.add(row)
         
-        table.arrange(DOWN, buff=0.25, aligned_edge=LEFT)
-        table.move_to(UP * 1.0)
+        table.arrange(DOWN, buff=0.2, aligned_edge=LEFT)
+        table.move_to(UP * 0.8)
         
         self.play(
-            LaggedStart(*[FadeIn(row, shift=UP * 0.15) for row in table], lag_ratio=0.1),
+            LaggedStart(*[FadeIn(row) for row in table], lag_ratio=0.1),
             run_time=SLOW
         )
         self.wait(PAUSE)
         
-        # Takeaways - positioned below table
-        qs_take = Text("Quick Sort: Faster in practice", font_size=LABEL_SIZE, color=PIVOT)
-        ms_take = Text("Merge Sort: Predictable & stable", font_size=LABEL_SIZE, color=TEMPORARY_STORAGE)
+        # Key takeaways
+        take1 = Text("Quick Sort: Faster in practice, lower memory", font_size=LABEL_SIZE, color=PIVOT)
+        take2 = Text("Merge Sort: Predictable O(n log n), stable", font_size=LABEL_SIZE, color=TEMPORARY_STORAGE)
+        take1.move_to(DOWN * 1.5)
+        take2.next_to(take1, DOWN, buff=0.3)
         
-        qs_take.move_to(DOWN * 1.2)
-        ms_take.next_to(qs_take, DOWN, buff=0.35)
-        
-        self.play(Write(qs_take), run_time=NORMAL)
-        self.play(Write(ms_take), run_time=NORMAL)
+        self.play(Write(take1), run_time=NORMAL)
+        self.play(Write(take2), run_time=NORMAL)
         self.wait(PAUSE)
         
-        # Final message at safe bottom
-        final = Text("Choose based on your requirements!", font_size=BODY_SIZE, color=CORRECTLY_PLACED)
-        final.move_to(DOWN * 2.8)
-        
-        self.play(Write(final), run_time=NORMAL)
+        # Final message
+        final_msg = Text("Choose based on your requirements!", font_size=BODY_SIZE, color=CORRECTLY_PLACED)
+        final_msg.move_to(DOWN * 2.8)
+        self.play(Write(final_msg), run_time=NORMAL)
         self.wait(PAUSE)
