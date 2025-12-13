@@ -14,6 +14,7 @@ Each chapter covers concepts from "Grokking Algorithms" with smooth motion, sema
 | 2 | Arrays, Linked Lists, Selection Sort | `Chapter2_ArraysLinkedListsSelectionSort/` |
 | 3 | Recursion, Call Stack, Base/Recursive Case | `Chapter3_Recursion/` |
 | 4 | Divide & Conquer, Quicksort, Pivot Analysis | `Chapter4_DivideConquerQuicksort/` |
+| 5 | Hash Tables, Hash Functions, Collisions | `Chapter5_HashTables/` |
 | - | Quick Sort vs Merge Sort | `quickSortVsMergeSort/` |
 
 ---
@@ -70,6 +71,10 @@ manim -pqh main.py Chapter3Animation
 cd Chapter4_DivideConquerQuicksort
 manim -pqh main.py Chapter4Animation
 
+# Render Chapter 5 - Hash Tables
+cd Chapter5_HashTables
+manim -pqh main.py Chapter5Animation
+
 # Render QuickSort vs MergeSort
 cd quickSortVsMergeSort
 manim -pqh main.py FullAnimation
@@ -102,6 +107,12 @@ algorithms/
 │   └── README.md
 ├── Chapter4_DivideConquerQuicksort/
 │   ├── main.py                    # D&C & Quicksort
+│   ├── config/
+│   ├── core/
+│   ├── algorithms/
+│   └── README.md
+├── Chapter5_HashTables/
+│   ├── main.py                    # Hash Tables
 │   ├── config/
 │   ├── core/
 │   ├── algorithms/
