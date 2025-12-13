@@ -11,6 +11,7 @@ Each chapter covers concepts from "Grokking Algorithms" with smooth motion, sema
 | Chapter | Topic | Folder |
 |---------|-------|--------|
 | 1 | Binary Search vs Linear Search, Big O | `Chapter1_BinarySearchVsLinearSearch/` |
+| 2 | Arrays, Linked Lists, Selection Sort | `Chapter2_ArraysLinkedListsSelectionSort/` |
 | - | Quick Sort vs Merge Sort | `quickSortVsMergeSort/` |
 
 ---
@@ -51,9 +52,13 @@ Each chapter covers concepts from "Grokking Algorithms" with smooth motion, sema
 # Install Manim
 pip install manim
 
-# Render Chapter 1
+# Render Chapter 1 - Binary Search
 cd Chapter1_BinarySearchVsLinearSearch
 manim -pqh main.py Chapter1Animation
+
+# Render Chapter 2 - Arrays & Selection Sort
+cd Chapter2_ArraysLinkedListsSelectionSort
+manim -pqh main.py Chapter2Animation
 
 # Render QuickSort vs MergeSort
 cd quickSortVsMergeSort
@@ -68,17 +73,22 @@ manim -pqh main.py FullAnimation
 algorithms/
 ├── .windsurf/rules/rules.md       # Project rules
 ├── Chapter1_BinarySearchVsLinearSearch/
-│   ├── main.py                    # Chapter 1 animation
-│   ├── config/                    # Colors, fonts, constants
-│   ├── core/                      # Visual components
-│   ├── algorithms/                # Pure algorithm logic
-│   └── README.md
-├── quickSortVsMergeSort/
-│   ├── main.py                    # Sorting animation
+│   ├── main.py                    # Binary Search animation
 │   ├── config/
 │   ├── core/
 │   ├── algorithms/
-│   ├── scenes/
+│   └── README.md
+├── Chapter2_ArraysLinkedListsSelectionSort/
+│   ├── main.py                    # Arrays & Selection Sort
+│   ├── config/
+│   ├── core/
+│   ├── algorithms/
+│   └── README.md
+├── quickSortVsMergeSort/
+│   ├── main.py                    # QuickSort vs MergeSort
+│   ├── config/
+│   ├── core/
+│   ├── algorithms/
 │   └── README.md
 └── README.md                      # This file
 ```
