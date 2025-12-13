@@ -95,9 +95,11 @@ algorithms/
 See `.windsurf/rules/rules.md` for full guidelines.
 
 ---
+## License
 
-## 📄 License
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
 
-MIT License — free for educational use.
+![GPLv3 License](https://img.shields.io/badge/License-GPLv3-blue.svg)
+
 
 
