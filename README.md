@@ -1,152 +1,185 @@
-# Quick Sort vs Merge Sort - Manim Animation
+# Algorithms — Visual Sorting Animations
 
-A professional educational animation comparing Quick Sort and Merge Sort algorithms, created with Manim Community Edition and inspired by 3Blue1Brown's visual style.
+A professional-grade **algorithm visualization repository** built with **Manim Community Edition**, focused on **deep conceptual understanding through motion**.
 
-## Features
+This project animates and compares **Quick Sort** and **Merge Sort** using a strict visual language inspired by **3Blue1Brown**. Every animation is deterministic, reusable, and designed to encode meaning through space, color, and motion rather than text-heavy explanations.
 
-- **Visual Algorithm Comparison**: Step-by-step animation of both sorting algorithms
-- **3Blue1Brown Style**: Clean dark theme, smooth motion, semantic colors
-- **Educational Focus**: Each scene explains exactly one concept
-- **Reusable Components**: Modular design following best practices
+---
 
-## Requirements
+## 🎯 Project Goals
 
-- Python 3.8+
-- Manim Community Edition
+* Visually explain **divide-and-conquer sorting algorithms** with mathematical clarity
+* Compare **Quick Sort vs Merge Sort** side by side on the same data
+* Achieve **lecture-quality animations** suitable for YouTube, university courses, and self-study
+* Enforce a **clean architecture** separating algorithm logic from animation logic
 
-## Installation
+---
 
-```bash
-# Install Manim Community Edition
-pip install manim
+## 🧠 Design Philosophy
 
-# Or with conda
-conda install -c conda-forge manim
-```
+This repository follows a small set of non-negotiable principles:
 
-## Usage
+* **Motion explains logic** — if an object moves, it must mean something
+* **One concept per scene** — no overloaded animations
+* **Recursion is spatial** — depth is shown vertically, not with text
+* **Color is semantic** — colors never change meaning
+* **No randomness** — every render is deterministic and reproducible
 
-### Render Full Animation
+Text is minimized. Understanding comes from watching the algorithm *think*.
 
-```bash
-# High quality (1080p, 60fps) - recommended for final output
-manim -pqh main.py FullAnimation
+---
 
-# Medium quality (720p, 30fps) - good for preview
-manim -pqm main.py FullAnimation
+## 🛠 Tech Stack
 
-# Low quality (480p, 15fps) - fast preview
-manim -pql main.py FullAnimation
-```
+* **Python 3.10+**
+* **Manim Community Edition (CE)**
+* Full HD rendering (1920×1080 @ 60 FPS)
 
-### Render Individual Scenes
+---
 
-```bash
-# Title scene
-manim -pql main.py TitleScene
-
-# Quick Sort scenes
-manim -pql main.py QuickSortOverviewScene
-manim -pql main.py QuickSortPartitionScene
-manim -pql main.py QuickSortRecursionScene
-manim -pql main.py QuickSortComplexityScene
-
-# Merge Sort scenes
-manim -pql main.py MergeSortOverviewScene
-manim -pql main.py MergeSortSplitScene
-manim -pql main.py MergeSortMergeScene
-manim -pql main.py MergeSortComplexityScene
-
-# Comparison scenes
-manim -pql main.py SideBySideScene
-manim -pql main.py FinalSummaryScene
-manim -pql main.py ClosingScene
-```
-
-### Quality Options
-
-| Flag | Resolution | FPS | Use Case |
-|------|------------|-----|----------|
-| `-ql` | 480p | 15 | Fast preview |
-| `-qm` | 720p | 30 | Draft review |
-| `-qh` | 1080p | 60 | Final output |
-| `-qk` | 4K | 60 | High-end output |
-
-## Project Structure
+## 📁 Repository Structure
 
 ```
-quickSortVsMergeSort/
-├── main.py                 # Entry point, full animation
-├── config/                 # Global configuration
-│   ├── colors.py          # Semantic color definitions
-│   ├── fonts.py           # Typography settings
-│   └── animation_constants.py  # Timing and easing
-├── core/                   # Reusable visual components
-│   ├── array_element.py   # Array bar visualization
-│   ├── pointers.py        # Pointer indicators
-│   └── recursion_layout.py # Tree layout helpers
-├── algorithms/             # Pure algorithm logic
-│   ├── quick_sort/        # Quick Sort implementation
-│   │   ├── logic.py       # Algorithm (no Manim)
-│   │   ├── states.py      # Animation states
-│   │   └── constants.py   # Algorithm constants
-│   └── merge_sort/        # Merge Sort implementation
-│       ├── logic.py
-│       ├── states.py
-│       └── constants.py
-├── scenes/                 # Animation scenes
-│   ├── intro/             # Title and motivation
-│   ├── quick_sort/        # Quick Sort scenes
-│   ├── merge_sort/        # Merge Sort scenes
-│   └── comparison/        # Comparison scenes
-├── utils/                  # Helper utilities
-│   ├── animation_helpers.py
-│   ├── easing.py
-│   └── validators.py
-└── assets/                 # Media assets
-    ├── audio/
-    ├── images/
-    └── fonts/
+sorting_visualization/
+│
+├── main.py
+│
+├── config/                 # Global visual & animation constants
+│   ├── colors.py
+│   ├── fonts.py
+│   └── animation_constants.py
+│
+├── core/                   # Reusable visual primitives
+│   ├── array_element.py
+│   ├── array_group.py
+│   ├── pointers.py
+│   └── recursion_layout.py
+│
+├── algorithms/             # Pure algorithm logic (no Manim)
+│   ├── quick_sort/
+│   │   ├── logic.py
+│   │   ├── states.py
+│   │   └── constants.py
+│   │
+│   ├── merge_sort/
+│   │   ├── logic.py
+│   │   ├── states.py
+│   │   └── constants.py
+│
+├── scenes/                 # Manim scenes (visualization only)
+│   ├── intro/
+│   ├── quick_sort/
+│   ├── merge_sort/
+│   └── comparison/
+│
+├── assets/                 # Fonts, audio, static images
+│
+├── utils/                  # Helpers & validators
+│
+└── README.md
 ```
 
-## Color Semantics
+---
 
-| Color | Meaning |
-|-------|---------|
-| 🔵 Blue | Unprocessed elements |
-| 🔴 Red | Active comparison |
-| 🟡 Yellow | Pivot (Quick Sort) |
-| 🟢 Green | Correctly placed |
-| 🟣 Purple | Temporary storage (Merge Sort) |
+## 🧩 Architecture Overview
 
-## Scene Breakdown
+### Algorithm Layer (`algorithms/`)
 
-1. **TitleScene**: Introduction and motivation
-2. **QuickSortOverviewScene**: Quick Sort intuition
-3. **QuickSortPartitionScene**: Partition mechanism
-4. **QuickSortRecursionScene**: Recursion tree visualization
-5. **QuickSortComplexityScene**: Time/space complexity
-6. **MergeSortOverviewScene**: Merge Sort intuition
-7. **MergeSortSplitScene**: Divide phase
-8. **MergeSortMergeScene**: Merge process
-9. **MergeSortComplexityScene**: Complexity analysis
-10. **SideBySideScene**: Direct comparison
-11. **FinalSummaryScene**: Key takeaways
-12. **ClosingScene**: Final sorted array
+* Contains **pure Python implementations** of algorithms
+* Produces **step-by-step states** (comparisons, swaps, merges)
+* No Manim imports allowed
 
-## Design Principles
+### Visualization Core (`core/`)
 
-- **R1**: Every animation encodes information, not decoration
-- **R2**: One concept per scene
-- **R3**: Deterministic animations (predefined arrays)
-- **R4**: Consistent color semantics
-- **R5**: Recursion shown spatially (vertical depth)
-- **R6**: No hard-coded coordinates (relative positioning)
-- **R7**: Algorithm logic separated from animation
-- **R8**: No animation step > 1.5 seconds
-- **R9**: Minimal text, visual explanations
-- **R10**: Reusable components
+* Defines reusable visual components (bars, arrows, containers)
+* Completely algorithm-agnostic
 
-## License
+### Scene Layer (`scenes/`)
 
-Educational use permitted.
+* Translates algorithm states into animations
+* Each scene explains **exactly one concept**
+
+This separation ensures correctness, reusability, and testability.
+
+---
+
+## 🎥 Implemented Animations
+
+### Quick Sort
+
+* Pivot selection and highlighting
+* Partitioning via spatial movement
+* Recursive subarray visualization
+* Best vs worst-case recursion depth
+
+### Merge Sort
+
+* Balanced recursive splitting
+* Temporary array usage during merge
+* Stable ordering preservation
+* Guaranteed O(n log n) behavior
+
+### Comparison
+
+* Side-by-side execution on identical input
+* Visual contrast of space usage
+* Performance intuition (not benchmarks)
+
+---
+
+## ▶️ How to Run
+
+1. Install Manim Community Edition
+
+   ```bash
+   pip install manim
+   ```
+
+2. Render a scene
+
+   ```bash
+   manim -pqh main.py QuickSortOverviewScene
+   ```
+
+3. For full-quality output
+
+   ```bash
+   manim -pqh --resolution 1920,1080 main.py ComparisonScene
+   ```
+
+---
+
+## 🚦 Contribution Rules
+
+* Do not mix algorithm logic with animation code
+* Do not introduce new colors without semantic definition
+* Do not hard-code screen coordinates
+* Do not add text where motion can explain
+
+Pull requests that violate architectural or visual rules will be rejected.
+
+---
+
+## 📚 Target Audience
+
+* Computer science students
+* Educators and lecturers
+* Self-learners studying algorithms
+* Content creators producing technical videos
+
+---
+
+## 📌 Roadmap
+
+* Add Heap Sort and Counting Sort
+* Complexity heat-map visualizations
+* Arabic and English narration timing guides
+* Export-friendly short-form animations
+
+---
+
+## 📄 License
+
+MIT License — free to use, modify, and distribute for educational purposes.
+
+
