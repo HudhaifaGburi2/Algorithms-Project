@@ -15,6 +15,7 @@ Each chapter covers concepts from "Grokking Algorithms" with smooth motion, sema
 | 3 | Recursion, Call Stack, Base/Recursive Case | `Chapter3_Recursion/` |
 | 4 | Divide & Conquer, Quicksort, Pivot Analysis | `Chapter4_DivideConquerQuicksort/` |
 | 5 | Hash Tables, Hash Functions, Collisions | `Chapter5_HashTables/` |
+| 6 | Breadth-First Search, Graphs, Queues | `Chapter6_BreadthFirstSearch/` |
 | - | Quick Sort vs Merge Sort | `quickSortVsMergeSort/` |
 
 ---
@@ -75,6 +76,10 @@ manim -pqh main.py Chapter4Animation
 cd Chapter5_HashTables
 manim -pqh main.py Chapter5Animation
 
+# Render Chapter 6 - BFS
+cd Chapter6_BreadthFirstSearch
+manim -pqh main.py Chapter6Animation
+
 # Render QuickSort vs MergeSort
 cd quickSortVsMergeSort
 manim -pqh main.py FullAnimation
@@ -113,6 +118,12 @@ algorithms/
 │   └── README.md
 ├── Chapter5_HashTables/
 │   ├── main.py                    # Hash Tables
+│   ├── config/
+│   ├── core/
+│   ├── algorithms/
+│   └── README.md
+├── Chapter6_BreadthFirstSearch/
+│   ├── main.py                    # BFS & Graphs
 │   ├── config/
 │   ├── core/
 │   ├── algorithms/
