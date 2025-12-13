@@ -13,6 +13,7 @@ Each chapter covers concepts from "Grokking Algorithms" with smooth motion, sema
 | 1 | Binary Search vs Linear Search, Big O | `Chapter1_BinarySearchVsLinearSearch/` |
 | 2 | Arrays, Linked Lists, Selection Sort | `Chapter2_ArraysLinkedListsSelectionSort/` |
 | 3 | Recursion, Call Stack, Base/Recursive Case | `Chapter3_Recursion/` |
+| 4 | Divide & Conquer, Quicksort, Pivot Analysis | `Chapter4_DivideConquerQuicksort/` |
 | - | Quick Sort vs Merge Sort | `quickSortVsMergeSort/` |
 
 ---
@@ -65,6 +66,10 @@ manim -pqh main.py Chapter2Animation
 cd Chapter3_Recursion
 manim -pqh main.py Chapter3Animation
 
+# Render Chapter 4 - Quicksort
+cd Chapter4_DivideConquerQuicksort
+manim -pqh main.py Chapter4Animation
+
 # Render QuickSort vs MergeSort
 cd quickSortVsMergeSort
 manim -pqh main.py FullAnimation
@@ -91,6 +96,12 @@ algorithms/
 │   └── README.md
 ├── Chapter3_Recursion/
 │   ├── main.py                    # Recursion & Call Stack
+│   ├── config/
+│   ├── core/
+│   ├── algorithms/
+│   └── README.md
+├── Chapter4_DivideConquerQuicksort/
+│   ├── main.py                    # D&C & Quicksort
 │   ├── config/
 │   ├── core/
 │   ├── algorithms/
