@@ -17,6 +17,7 @@ Each chapter covers concepts from "Grokking Algorithms" with smooth motion, sema
 | 5 | Hash Tables, Hash Functions, Collisions | `Chapter5_HashTables/` |
 | 6 | Breadth-First Search, Graphs, Queues | `Chapter6_BreadthFirstSearch/` |
 | 7 | Dijkstra's Algorithm, Weighted Graphs | `Chapter7_DijkstrasAlgorithm/` |
+| 8 | Greedy Algorithms, NP-Complete | `Chapter8_GreedyAlgorithms/` |
 | - | Quick Sort vs Merge Sort | `quickSortVsMergeSort/` |
 
 ---
@@ -85,6 +86,10 @@ manim -pqh main.py Chapter6Animation
 cd Chapter7_DijkstrasAlgorithm
 manim -pqh main.py Chapter7Animation
 
+# Render Chapter 8 - Greedy
+cd Chapter8_GreedyAlgorithms
+manim -pqh main.py Chapter8Animation
+
 # Render QuickSort vs MergeSort
 cd quickSortVsMergeSort
 manim -pqh main.py FullAnimation
@@ -135,6 +140,12 @@ algorithms/
 │   └── README.md
 ├── Chapter7_DijkstrasAlgorithm/
 │   ├── main.py                    # Dijkstra's Algorithm
+│   ├── config/
+│   ├── core/
+│   ├── algorithms/
+│   └── README.md
+├── Chapter8_GreedyAlgorithms/
+│   ├── main.py                    # Greedy & NP-Complete
 │   ├── config/
 │   ├── core/
 │   ├── algorithms/
