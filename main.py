@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-Quick Sort vs Merge Sort - Improved Animation
-=============================================
-Fixed: Normal speed, clear D&C visualization, no overlapping, proper comparison.
+Quick Sort vs Merge Sort - Animation
+====================================
+Clean layout, no overlapping, proper sequencing.
 
 Usage:
-    manim -pql main_improved.py FullAnimation   # Preview
-    manim -pqh main_improved.py FullAnimation   # High quality
+    manim -pql main.py FullAnimation   # Preview
+    manim -pqh main.py FullAnimation   # High quality
 """
 import sys
 sys.path.insert(0, '/home/hg/Desktop/algorthims/quickSortVsMergeSort')
@@ -21,18 +21,25 @@ from config.colors import (
 )
 from config.fonts import TITLE_SIZE, SUBTITLE_SIZE, HEADING_SIZE, BODY_SIZE, LABEL_SIZE, SMALL_SIZE
 
-# Animation timing - NORMAL SPEED (not fast)
-FAST = 0.6
-NORMAL = 1.0
-SLOW = 1.5
-PAUSE = 0.8
+# Animation timing
+FAST = 0.5
+NORMAL = 0.8
+SLOW = 1.2
+PAUSE = 0.6
 
-# Array for demonstration - 5 numbers for clarity
+# Layout constants - prevent overlap
+TITLE_Y = 3.2          # Title position (top)
+CONTENT_TOP_Y = 2.0    # Content starts below title
+CONTENT_MID_Y = 0.0    # Middle content area
+CONTENT_BOT_Y = -2.0   # Bottom content area
+SAFE_BOTTOM = -3.3     # Safe bottom margin
+
+# Array for demonstration
 DEMO_ARRAY = [8, 3, 7, 4, 2]
 
 
 class FullAnimation(Scene):
-    """Complete animation with improved pacing and clarity."""
+    """Complete animation with clean layout - no overlapping."""
     
     def construct(self):
         self.camera.background_color = BACKGROUND_COLOR
@@ -41,67 +48,65 @@ class FullAnimation(Scene):
         self._title_scene()
         self._clear_scene()
         
-        # Scene 2: Quick Sort - D&C Concept
-        self._quick_sort_dc_concept()
+        # Scene 2: Quick Sort Explanation
+        self._quick_sort_explained()
         self._clear_scene()
         
-        # Scene 3: Quick Sort - Full Example
-        self._quick_sort_full_example()
-        self._clear_scene()
-        
-        # Scene 4: Quick Sort Complexity
+        # Scene 3: Quick Sort Complexity
         self._quick_sort_complexity()
         self._clear_scene()
         
-        # Scene 5: Merge Sort - D&C Concept
-        self._merge_sort_dc_concept()
+        # Scene 4: Merge Sort Explanation
+        self._merge_sort_explained()
         self._clear_scene()
         
-        # Scene 6: Merge Sort - Full Example
-        self._merge_sort_full_example()
-        self._clear_scene()
-        
-        # Scene 7: Merge Sort Complexity
+        # Scene 5: Merge Sort Complexity
         self._merge_sort_complexity()
         self._clear_scene()
         
-        # Scene 8: Side-by-Side Sorting Race
-        self._side_by_side_race()
+        # Scene 6: Side-by-Side Comparison
+        self._side_by_side_comparison()
         self._clear_scene()
         
-        # Scene 9: Final Summary
+        # Scene 7: Final Summary
         self._final_summary()
     
     def _clear_scene(self):
         """Clear with fade transition."""
         if self.mobjects:
             self.play(*[FadeOut(m) for m in self.mobjects], run_time=FAST)
-        self.wait(0.3)
+        self.wait(0.2)
     
     # ==================== HELPER METHODS ====================
+    
+    def _create_title(self, text):
+        """Create and show title at safe top position."""
+        title = Text(text, font_size=HEADING_SIZE, color=TEXT_PRIMARY)
+        title.move_to(UP * TITLE_Y)
+        return title
     
     def _create_bar(self, value, color=UNPROCESSED, scale=1.0):
         """Create a single bar with value label inside."""
         bar = VGroup()
         
         rect = RoundedRectangle(
-            width=0.9 * scale,
-            height=value * 0.5 * scale,
-            corner_radius=0.08 * scale,
+            width=0.8 * scale,
+            height=value * 0.4 * scale,
+            corner_radius=0.06 * scale,
             fill_color=color,
             fill_opacity=0.9,
             stroke_color=color,
             stroke_width=2
         )
         
-        label = Text(str(value), font_size=int(24 * scale), color=TEXT_PRIMARY)
+        label = Text(str(value), font_size=int(20 * scale), color=TEXT_PRIMARY)
         label.move_to(rect.get_center())
         
         bar.add(rect, label)
         bar.value = value
         return bar
     
-    def _create_array(self, values, color=UNPROCESSED, scale=1.0, spacing=0.25):
+    def _create_array(self, values, color=UNPROCESSED, scale=1.0, spacing=0.2):
         """Create array of bars with proper spacing."""
         bars = VGroup()
         for val in values:
@@ -110,74 +115,53 @@ class FullAnimation(Scene):
         bars.arrange(RIGHT, buff=spacing * scale)
         return bars
     
-    def _color_bar(self, bar, color, duration=FAST):
-        """Animate color change of a bar."""
-        return AnimationGroup(
-            bar[0].animate.set_fill(color).set_stroke(color),
-            run_time=duration
-        )
-    
-    def _swap_bars(self, bars, i, j, duration=NORMAL):
-        """Swap two bars with arc animation."""
-        bar_i, bar_j = bars[i], bars[j]
-        pos_i, pos_j = bar_i.get_center(), bar_j.get_center()
-        
-        # Swap in list
-        bars[i], bars[j] = bars[j], bars[i]
-        
-        return AnimationGroup(
-            bar_i.animate.move_to(pos_j),
-            bar_j.animate.move_to(pos_i),
-            run_time=duration,
-            lag_ratio=0
-        )
+    def _color_bar(self, bar, color):
+        """Return animation for color change of a bar."""
+        return bar[0].animate.set_fill(color).set_stroke(color)
     
     # ==================== SCENE 1: TITLE ====================
     
     def _title_scene(self):
         """Title and introduction."""
+        # Title centered
         title = Text("Quick Sort vs Merge Sort", font_size=TITLE_SIZE, color=TEXT_PRIMARY)
-        subtitle = Text("Divide and Conquer Algorithms", font_size=SUBTITLE_SIZE, color=TEXT_SECONDARY)
-        subtitle.next_to(title, DOWN, buff=0.5)
+        title.move_to(UP * 1.5)
         
-        title_group = VGroup(title, subtitle)
+        subtitle = Text("Divide and Conquer Algorithms", font_size=SUBTITLE_SIZE, color=TEXT_SECONDARY)
+        subtitle.next_to(title, DOWN, buff=0.4)
         
         self.play(Write(title), run_time=SLOW)
         self.wait(PAUSE)
-        self.play(FadeIn(subtitle, shift=UP * 0.3), run_time=NORMAL)
+        self.play(FadeIn(subtitle, shift=UP * 0.2), run_time=NORMAL)
         self.wait(PAUSE)
         
-        # Show unsorted array
-        self.play(title_group.animate.to_edge(UP, buff=0.6), run_time=NORMAL)
+        # Show array below subtitle
+        array = self._create_array(DEMO_ARRAY, UNPROCESSED, scale=0.9)
+        array.move_to(DOWN * 0.8)
         
-        array = self._create_array(DEMO_ARRAY, UNPROCESSED)
-        array.move_to(ORIGIN)
+        array_label = Text("Unsorted Array", font_size=LABEL_SIZE, color=TEXT_SECONDARY)
+        array_label.next_to(array, DOWN, buff=0.4)
         
         self.play(
-            LaggedStart(*[FadeIn(bar, shift=UP * 0.5) for bar in array], lag_ratio=0.15),
+            LaggedStart(*[FadeIn(bar, shift=UP * 0.3) for bar in array], lag_ratio=0.12),
             run_time=NORMAL
         )
-        self.wait(PAUSE)
-        
-        # Label
-        unsorted_label = Text("Unsorted Array", font_size=LABEL_SIZE, color=TEXT_SECONDARY)
-        unsorted_label.next_to(array, DOWN, buff=0.5)
-        self.play(Write(unsorted_label), run_time=FAST)
+        self.play(Write(array_label), run_time=FAST)
         self.wait(PAUSE)
         
         # Transform to sorted
-        sorted_array = self._create_array(sorted(DEMO_ARRAY), CORRECTLY_PLACED)
+        sorted_array = self._create_array(sorted(DEMO_ARRAY), CORRECTLY_PLACED, scale=0.9)
         sorted_array.move_to(array.get_center())
         
         sorted_label = Text("Sorted Array", font_size=LABEL_SIZE, color=CORRECTLY_PLACED)
-        sorted_label.next_to(sorted_array, DOWN, buff=0.5)
+        sorted_label.next_to(sorted_array, DOWN, buff=0.4)
         
         self.play(
             ReplacementTransform(array, sorted_array),
-            ReplacementTransform(unsorted_label, sorted_label),
+            ReplacementTransform(array_label, sorted_label),
             run_time=SLOW
         )
-        self.wait(PAUSE * 2)
+        self.wait(PAUSE)
     
     # ==================== SCENE 2: QUICK SORT D&C ====================
     
