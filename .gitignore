@@ -1,0 +1,21 @@
+# IDE
+.windsurf/
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+
+# Manim output
+media/
+
+# OS
+.DS_Store
+Thumbs.db
