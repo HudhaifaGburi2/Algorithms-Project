@@ -168,7 +168,6 @@ algorithms/
 - Each scene explains exactly one concept
 - Reusable visual components
 
-See `.windsurf/rules/rules.md` for full guidelines.
 
 ---
 ## License
